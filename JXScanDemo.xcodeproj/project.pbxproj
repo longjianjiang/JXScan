@@ -13,6 +13,12 @@
 		781580B321057B9500B397E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 781580B221057B9500B397E6 /* Assets.xcassets */; };
 		781580B621057B9500B397E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781580B421057B9500B397E6 /* LaunchScreen.storyboard */; };
 		781580B921057B9500B397E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580B821057B9500B397E6 /* main.m */; };
+		781580C221057DA800B397E6 /* JXDocumentDetectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580C121057DA800B397E6 /* JXDocumentDetectorView.m */; };
+		781580C721057DB100B397E6 /* JXWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580C521057DB100B397E6 /* JXWeakProxy.m */; };
+		781580C821057DB100B397E6 /* JXCGTransformHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580C621057DB100B397E6 /* JXCGTransformHelper.m */; };
+		781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CA21057EC400B397E6 /* JXScanViewController.m */; };
+		781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CD2105826800B397E6 /* JXDocumentEditView.m */; };
+		78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611322105B62800BD2C8B /* JXEditViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +32,18 @@
 		781580B521057B9500B397E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		781580B721057B9500B397E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		781580B821057B9500B397E6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		781580C021057DA800B397E6 /* JXDocumentDetectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXDocumentDetectorView.h; sourceTree = "<group>"; };
+		781580C121057DA800B397E6 /* JXDocumentDetectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXDocumentDetectorView.m; sourceTree = "<group>"; };
+		781580C321057DB100B397E6 /* JXCGTransformHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXCGTransformHelper.h; sourceTree = "<group>"; };
+		781580C421057DB100B397E6 /* JXWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXWeakProxy.h; sourceTree = "<group>"; };
+		781580C521057DB100B397E6 /* JXWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXWeakProxy.m; sourceTree = "<group>"; };
+		781580C621057DB100B397E6 /* JXCGTransformHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXCGTransformHelper.m; sourceTree = "<group>"; };
+		781580C921057EC400B397E6 /* JXScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXScanViewController.h; sourceTree = "<group>"; };
+		781580CA21057EC400B397E6 /* JXScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXScanViewController.m; sourceTree = "<group>"; };
+		781580CC2105826800B397E6 /* JXDocumentEditView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXDocumentEditView.h; sourceTree = "<group>"; };
+		781580CD2105826800B397E6 /* JXDocumentEditView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXDocumentEditView.m; sourceTree = "<group>"; };
+		78A611312105B62800BD2C8B /* JXEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditViewController.h; sourceTree = "<group>"; };
+		78A611322105B62800BD2C8B /* JXEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +76,7 @@
 		781580A821057B9400B397E6 /* JXScanDemo */ = {
 			isa = PBXGroup;
 			children = (
+				781580BF21057D7C00B397E6 /* JXScan */,
 				781580A921057B9400B397E6 /* AppDelegate.h */,
 				781580AA21057B9400B397E6 /* AppDelegate.m */,
 				781580AC21057B9400B397E6 /* ViewController.h */,
@@ -67,8 +86,43 @@
 				781580B421057B9500B397E6 /* LaunchScreen.storyboard */,
 				781580B721057B9500B397E6 /* Info.plist */,
 				781580B821057B9500B397E6 /* main.m */,
+				781580C921057EC400B397E6 /* JXScanViewController.h */,
+				781580CA21057EC400B397E6 /* JXScanViewController.m */,
+				78A611312105B62800BD2C8B /* JXEditViewController.h */,
+				78A611322105B62800BD2C8B /* JXEditViewController.m */,
 			);
 			path = JXScanDemo;
+			sourceTree = "<group>";
+		};
+		781580BF21057D7C00B397E6 /* JXScan */ = {
+			isa = PBXGroup;
+			children = (
+				781581382105AC2900B397E6 /* Tool */,
+				781581372105AC2100B397E6 /* View */,
+				781580C321057DB100B397E6 /* JXCGTransformHelper.h */,
+				781580C621057DB100B397E6 /* JXCGTransformHelper.m */,
+				781580C421057DB100B397E6 /* JXWeakProxy.h */,
+				781580C521057DB100B397E6 /* JXWeakProxy.m */,
+				781580C021057DA800B397E6 /* JXDocumentDetectorView.h */,
+				781580C121057DA800B397E6 /* JXDocumentDetectorView.m */,
+				781580CC2105826800B397E6 /* JXDocumentEditView.h */,
+				781580CD2105826800B397E6 /* JXDocumentEditView.m */,
+			);
+			path = JXScan;
+			sourceTree = "<group>";
+		};
+		781581372105AC2100B397E6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		781581382105AC2900B397E6 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,8 +195,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781580C821057DB100B397E6 /* JXCGTransformHelper.m in Sources */,
+				781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */,
 				781580AE21057B9400B397E6 /* ViewController.m in Sources */,
+				781580C221057DA800B397E6 /* JXDocumentDetectorView.m in Sources */,
+				781580C721057DB100B397E6 /* JXWeakProxy.m in Sources */,
 				781580B921057B9500B397E6 /* main.m in Sources */,
+				78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */,
+				781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */,
 				781580AB21057B9400B397E6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +348,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74MF5V7Z8J;
 				INFOPLIST_FILE = JXScanDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,6 +366,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74MF5V7Z8J;
 				INFOPLIST_FILE = JXScanDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
