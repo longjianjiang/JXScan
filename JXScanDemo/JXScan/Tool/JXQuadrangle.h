@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, JXCorderPosition) {
+    JXCorderPositionTopLeft,
+    JXCorderPositionTopRight,
+    JXCorderPositionBottomRight,
+    JXCorderPositionBottomLeft
+};
+
 typedef struct JXQuadrangleFeature {
     
     CGPoint topLeft;

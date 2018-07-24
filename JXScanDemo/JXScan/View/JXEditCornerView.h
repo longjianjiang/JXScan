@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "JXQuadrangle.h"
 
 @interface JXEditCornerView : UIView
+
+@property (nonatomic, assign) JXCorderPosition position;
+
+- (instancetype)initWithCorderPosition:(JXCorderPosition)position;
 
 @end
 
