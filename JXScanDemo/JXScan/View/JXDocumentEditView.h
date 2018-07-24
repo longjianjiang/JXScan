@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JXQuadrangle.h"
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface JXDocumentEditView : UIView
 
-- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(CIRectangleFeature *)borderRectangle;
+- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(JXQuadrangleFeature)borderRectangle;
 
 @end
 
-NS_ASSUME_NONNULL_END

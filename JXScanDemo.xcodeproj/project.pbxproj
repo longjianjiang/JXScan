@@ -18,7 +18,9 @@
 		781580C821057DB100B397E6 /* JXCGTransformHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580C621057DB100B397E6 /* JXCGTransformHelper.m */; };
 		781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CA21057EC400B397E6 /* JXScanViewController.m */; };
 		781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CD2105826800B397E6 /* JXDocumentEditView.m */; };
+		786A14DB210711B400579785 /* JXEditCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A14DA210711B400579785 /* JXEditCornerView.m */; };
 		78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611322105B62800BD2C8B /* JXEditViewController.m */; };
+		78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611822106CAD700BD2C8B /* JXQuadrangle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +44,12 @@
 		781580CA21057EC400B397E6 /* JXScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXScanViewController.m; sourceTree = "<group>"; };
 		781580CC2105826800B397E6 /* JXDocumentEditView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXDocumentEditView.h; sourceTree = "<group>"; };
 		781580CD2105826800B397E6 /* JXDocumentEditView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXDocumentEditView.m; sourceTree = "<group>"; };
+		786A14D9210711B400579785 /* JXEditCornerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditCornerView.h; sourceTree = "<group>"; };
+		786A14DA210711B400579785 /* JXEditCornerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditCornerView.m; sourceTree = "<group>"; };
 		78A611312105B62800BD2C8B /* JXEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditViewController.h; sourceTree = "<group>"; };
 		78A611322105B62800BD2C8B /* JXEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditViewController.m; sourceTree = "<group>"; };
+		78A611812106CAD700BD2C8B /* JXQuadrangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXQuadrangle.h; sourceTree = "<group>"; };
+		78A611822106CAD700BD2C8B /* JXQuadrangle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXQuadrangle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +107,6 @@
 				781581372105AC2100B397E6 /* View */,
 				781580C321057DB100B397E6 /* JXCGTransformHelper.h */,
 				781580C621057DB100B397E6 /* JXCGTransformHelper.m */,
-				781580C421057DB100B397E6 /* JXWeakProxy.h */,
-				781580C521057DB100B397E6 /* JXWeakProxy.m */,
-				781580C021057DA800B397E6 /* JXDocumentDetectorView.h */,
-				781580C121057DA800B397E6 /* JXDocumentDetectorView.m */,
-				781580CC2105826800B397E6 /* JXDocumentEditView.h */,
-				781580CD2105826800B397E6 /* JXDocumentEditView.m */,
 			);
 			path = JXScan;
 			sourceTree = "<group>";
@@ -114,6 +114,12 @@
 		781581372105AC2100B397E6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				781580C021057DA800B397E6 /* JXDocumentDetectorView.h */,
+				781580C121057DA800B397E6 /* JXDocumentDetectorView.m */,
+				781580CC2105826800B397E6 /* JXDocumentEditView.h */,
+				781580CD2105826800B397E6 /* JXDocumentEditView.m */,
+				786A14D9210711B400579785 /* JXEditCornerView.h */,
+				786A14DA210711B400579785 /* JXEditCornerView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -121,6 +127,10 @@
 		781581382105AC2900B397E6 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				781580C421057DB100B397E6 /* JXWeakProxy.h */,
+				781580C521057DB100B397E6 /* JXWeakProxy.m */,
+				78A611812106CAD700BD2C8B /* JXQuadrangle.h */,
+				78A611822106CAD700BD2C8B /* JXQuadrangle.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -196,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				781580C821057DB100B397E6 /* JXCGTransformHelper.m in Sources */,
+				786A14DB210711B400579785 /* JXEditCornerView.m in Sources */,
 				781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */,
 				781580AE21057B9400B397E6 /* ViewController.m in Sources */,
 				781580C221057DA800B397E6 /* JXDocumentDetectorView.m in Sources */,
@@ -204,6 +215,7 @@
 				78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */,
 				781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */,
 				781580AB21057B9400B397E6 /* AppDelegate.m in Sources */,
+				78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

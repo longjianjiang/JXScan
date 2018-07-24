@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JXQuadrangle.h"
 
-typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, CIRectangleFeature *borderRectangle);
+typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, JXQuadrangleFeature borderRectangle);
 
 @class JXDocumentDetectorView;
 
@@ -17,7 +18,7 @@ typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, CIRe
 @optional
 
 - (void)jxDocumentDetectorViewDidFailToSetupCamera:(JXDocumentDetectorView *)documentDetectorView;
-- (void)jxDocumentDetectorView:(JXDocumentDetectorView *)documentDetectorView didCaptureOriginalImage:(UIImage *)originalImage cutImage:(UIImage *)cutImage;
+- (void)jxDocumentDetectorView:(JXDocumentDetectorView *)documentDetectorView didCaptureOriginalImage:(UIImage *)originalImage cutImage:(UIImage *)cutImage borderRectangle:(JXQuadrangleFeature)borderRectangle;
 
 @end
 
@@ -27,9 +28,12 @@ typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, CIRe
 - (void)setupCameraView;
 - (void)startDetect;
 - (void)stopDetect;
-- (void)didCaptureImageWithCompletionHandler:(CompletionHandler)completionHandler;
+- (void)capture;
 
 @property (nonatomic, weak) id<JXDocumentDetectorViewDelegate> delegate;
+@property (nonatomic, assign) BOOL isAutoCapture;
 
+
+//- (void)didCaptureImageWithCompletionHandler:(CompletionHandler)completionHandler;
 @end
 

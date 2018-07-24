@@ -7,7 +7,7 @@
 //
 
 #import "JXScanViewController.h"
-#import "JXScan/JXDocumentDetectorView.h"
+#import "JXScan/View/JXDocumentDetectorView.h"
 
 #import "JXEditViewController.h"
 
@@ -56,22 +56,15 @@
 
 - (void)captureBtnDidClick:(id)sender {
     NSLog(@"capture btn did click");
-    
-    __weak typeof(self) weakSelf = self;
-    
-    [self.detectorView didCaptureImageWithCompletionHandler:^(UIImage *originalImage, UIImage *cutImage, CIRectangleFeature *borderRectangle) {
-        __strong typeof(self) strongSelf = weakSelf;
-        
-        JXEditViewController *editVC = [[JXEditViewController alloc] initWithOriginalImage:originalImage borderRectangle:borderRectangle];
-        
-        [strongSelf.navigationController pushViewController:editVC animated:YES];
-    }];
+   
+    [self.detectorView capture];
 }
 
 
 #pragma mark - JXDocumentDetectorViewDelegate
-- (void)jxDocumentDetectorView:(JXDocumentDetectorView *)documentDetectorView didCaptureOriginalImage:(UIImage *)originalImage cutImage:(UIImage *)cutImage {
-    JXEditViewController *editVC = [[JXEditViewController alloc] initWithOriginalImage:cutImage borderRectangle:nil];
+- (void)jxDocumentDetectorView:(JXDocumentDetectorView *)documentDetectorView didCaptureOriginalImage:(UIImage *)originalImage cutImage:(UIImage *)cutImage borderRectangle:(JXQuadrangleFeature)borderRectangle {
+    
+    JXEditViewController *editVC = [[JXEditViewController alloc] initWithOriginalImage:originalImage borderRectangle:borderRectangle];
     
     [self.navigationController pushViewController:editVC animated:YES];
 }

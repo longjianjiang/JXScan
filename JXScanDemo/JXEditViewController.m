@@ -7,7 +7,7 @@
 //
 
 #import "JXEditViewController.h"
-#import "JXScan/JXDocumentEditView.h"
+#import "JXScan/View/JXDocumentEditView.h"
 
 
 @interface JXEditViewController ()
@@ -15,13 +15,13 @@
 @property (nonatomic, strong) JXDocumentEditView *editView;
 
 @property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) CIRectangleFeature *rectangleFeature;
+@property (nonatomic, assign) JXQuadrangleFeature rectangleFeature;
 
 @end
 
 @implementation JXEditViewController
 
-- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(CIRectangleFeature *)borderRectangle {
+- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(JXQuadrangleFeature)borderRectangle {
     self = [super init];
     if (self) {
         self.image = originalImage;
@@ -29,7 +29,6 @@
     }
     return self;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];

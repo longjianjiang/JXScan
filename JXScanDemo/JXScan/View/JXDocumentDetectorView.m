@@ -12,7 +12,6 @@
 #import <GLKit/GLKit.h>
 
 #import "JXWeakProxy.h"
-#import "JXCGTransformHelper.h"
 
 static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 
@@ -21,7 +20,7 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
     GLuint _renderBuffer;
     
     CIContext *_coreImageContext;
-    
+    CGRect _imageExtentRect;
     CGFloat _imageDetectionConfidence;
     NSTimer *_documentDetectorTimer;
     
@@ -48,119 +47,8 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 
 @implementation JXDocumentDetectorView
 
-- (void)autoCapture {
-    if (_isCapturing) return;
-    
-    __weak typeof(self) weakSelf = self;
-    
-    _isCapturing = YES;
-    _rectOverlay.path = nil;
-    
-    AVCaptureConnection *connection = nil;
-    for (AVCaptureConnection *con in self.stillImageOutput.connections) {
-        for (AVCaptureInputPort *port in [con inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                connection = con;
-                break;
-            }
-        }
-        if (connection) break;
-    }
-    
-    if (!connection || !connection.enabled || !connection.active || !_isCaptureFirstFrame) {
-        return;
-    }
-    
-    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^(CMSampleBufferRef  _Nullable imageDataSampleBuffer, NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
-        
-        NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-        
-        CIImage *enhancedImage = [CIImage imageWithData:imageData];
-        enhancedImage = [strongSelf filteredImageUsingContrastFilterOnImage:enhancedImage];
-        
-        CIRectangleFeature *documentFeature;
-        if (doucmentDetectionConfidenceHighEnough(strongSelf->_imageDetectionConfidence)) {
-            documentFeature = [strongSelf biggestRectangleInRectangles:[[strongSelf documentBorderDetector] featuresInImage:enhancedImage]];
-            if (documentFeature) {
-                enhancedImage = [strongSelf correctPerspectiveForImage:enhancedImage withFeatures:documentFeature];
-            }
-        }
-        
-        UIGraphicsBeginImageContext(CGSizeMake(enhancedImage.extent.size.height, enhancedImage.extent.size.width));
-        [[UIImage imageWithCIImage:enhancedImage scale:1.0 orientation:UIImageOrientationRight] drawInRect:CGRectMake(0,0, enhancedImage.extent.size.height, enhancedImage.extent.size.width)];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [self.delegate jxDocumentDetectorView:self didCaptureOriginalImage:[UIImage imageWithData:imageData] cutImage:image];
-        
-        strongSelf->_isCapturing = NO;
-        
-        if (strongSelf->_rectOverlay) {
-            strongSelf->_rectOverlay.path = nil;
-        }
-        
-    }];
-}
-
-
-- (void)didCaptureImageWithCompletionHandler:(CompletionHandler)completionHandler {
-    if (_isCapturing) return;
-    
-    __weak typeof(self) weakSelf = self;
-    
-    _isCapturing = YES;
-    _rectOverlay.path = nil;
-    
-    AVCaptureConnection *connection = nil;
-    for (AVCaptureConnection *con in self.stillImageOutput.connections) {
-        for (AVCaptureInputPort *port in [con inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                connection = con;
-                break;
-            }
-        }
-        if (connection) break;
-    }
-    
-    if (!connection || !connection.enabled || !connection.active || !_isCaptureFirstFrame) {
-        return;
-    }
-    
-    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^(CMSampleBufferRef  _Nullable imageDataSampleBuffer, NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
-        
-        NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-        
-        CIImage *enhancedImage = [CIImage imageWithData:imageData];
-        enhancedImage = [strongSelf filteredImageUsingContrastFilterOnImage:enhancedImage];
-        
-        CIRectangleFeature *documentFeature;
-        if (doucmentDetectionConfidenceHighEnough(strongSelf->_imageDetectionConfidence)) {
-            documentFeature = [strongSelf biggestRectangleInRectangles:[[strongSelf documentBorderDetector] featuresInImage:enhancedImage]];
-            if (documentFeature) {
-                enhancedImage = [strongSelf correctPerspectiveForImage:enhancedImage withFeatures:documentFeature];
-            }
-        }
-        
-        UIGraphicsBeginImageContext(CGSizeMake(enhancedImage.extent.size.height, enhancedImage.extent.size.width));
-        [[UIImage imageWithCIImage:enhancedImage scale:1.0 orientation:UIImageOrientationRight] drawInRect:CGRectMake(0,0, enhancedImage.extent.size.height, enhancedImage.extent.size.width)];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        
-        completionHandler([UIImage imageWithData:imageData], image, strongSelf->_documentDetectLastRectangleFeature);
-        
-        strongSelf->_isCapturing = NO;
-        
-        if (strongSelf->_rectOverlay) {
-            strongSelf->_rectOverlay.path = nil;
-        }
-        
-    }];
-}
 #pragma mark - public method
-- (void)captureImageWithCompletionHandler:(void (^)(UIImage * _Nonnull, CIRectangleFeature * _Nonnull))completionHandler {
+- (void)capture {
     if (_isCapturing) return;
     
     __weak typeof(self) weakSelf = self;
@@ -201,12 +89,16 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
         
         UIGraphicsBeginImageContext(CGSizeMake(enhancedImage.extent.size.height, enhancedImage.extent.size.width));
         [[UIImage imageWithCIImage:enhancedImage scale:1.0 orientation:UIImageOrientationRight] drawInRect:CGRectMake(0,0, enhancedImage.extent.size.height, enhancedImage.extent.size.width)];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIImage *cutImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        completionHandler(image, documentFeature);
+        JXQuadrangleFeature qf = [JXQudrangle getQuadrangleFeatureWithPreviewRect:strongSelf.frame extentImageRect:strongSelf->_imageExtentRect reactangleFeature:strongSelf->_documentDetectLastRectangleFeature];
         
-        /* strongSelf->_isCapturing = NO; */
+        if ([strongSelf.delegate respondsToSelector:@selector(jxDocumentDetectorView:didCaptureOriginalImage:cutImage:borderRectangle:)]) {
+            [strongSelf.delegate jxDocumentDetectorView:strongSelf didCaptureOriginalImage:[UIImage imageWithData:imageData] cutImage:cutImage borderRectangle:qf];
+        }
+        
+        strongSelf->_isCapturing = NO;
         
         if (strongSelf->_rectOverlay) {
             strongSelf->_rectOverlay.path = nil;
@@ -333,7 +225,10 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
     [EAGLContext setCurrentContext:self.context];
 }
 
-- (void)_drawBorderDetectRectWithImageRect:(CGRect)imageRect topLeft:(CGPoint)topLeft topRight:(CGPoint)topRight bottomLeft:(CGPoint)bottomLeft bottomRight:(CGPoint)bottomRight {
+- (void)_drawBorderDetectRectWithExtentImageRect:(CGRect)extentImageRect rectangleFeature:(CIRectangleFeature *)rectangleFeature {
+    if (!_imageExtentRect.size.width) {
+        _imageExtentRect = extentImageRect;
+    }
     
     if (_isCapturing) {
         return;
@@ -351,15 +246,9 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
         [self.layer addSublayer:_rectOverlay];
     }
     
-    TransformCIFeatureRect featureRect = [self transfromRealRectWithImageRect:imageRect topLeft:topLeft topRight:topRight bottomLeft:bottomLeft bottomRight:bottomRight];
+    JXQuadrangleFeature qf = [JXQudrangle getQuadrangleFeatureWithPreviewRect:self.frame extentImageRect:extentImageRect reactangleFeature:rectangleFeature];
     
-    UIBezierPath *path = [UIBezierPath new];
-    [path moveToPoint:featureRect.topLeft];
-    [path addLineToPoint:featureRect.topRight];
-    [path addLineToPoint:featureRect.bottomRight];
-    [path addLineToPoint:featureRect.bottomLeft];
-    [path closePath];
-
+    UIBezierPath *path = [JXQudrangle getQuadranglePathWithQuadrangle:qf];
     UIBezierPath *rectPath  = [UIBezierPath bezierPathWithRect:CGRectMake(-5,
                                                                           -5,
                                                                           self.frame.size.width + 10,
@@ -394,7 +283,7 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
         _imageDetectionConfidence += 0.5;
         
         if (doucmentDetectionConfidenceHighEnough(_imageDetectionConfidence)) {
-            [self _drawBorderDetectRectWithImageRect:image.extent topLeft:_documentDetectLastRectangleFeature.topLeft topRight:_documentDetectLastRectangleFeature.topRight bottomLeft:_documentDetectLastRectangleFeature.bottomLeft bottomRight:_documentDetectLastRectangleFeature.bottomRight];
+            [self _drawBorderDetectRectWithExtentImageRect:image.extent rectangleFeature:_documentDetectLastRectangleFeature];
         }
         
     } else {
@@ -480,10 +369,6 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 }
 
 #pragma mark - helper method
-BOOL doucmentDetectionConfidenceHighEnough(float confidence) {
-    return (confidence > 1.0);
-}
-
 - (CIRectangleFeature *)biggestRectangleInRectangles:(NSArray *)rectangles {
     if (![rectangles count]) return nil;
     
@@ -511,11 +396,8 @@ BOOL doucmentDetectionConfidenceHighEnough(float confidence) {
     return biggestRectangle;
 }
 
-
-- (TransformCIFeatureRect)transfromRealRectWithImageRect:(CGRect)imageRect topLeft:(CGPoint)topLeft topRight:(CGPoint)topRight bottomLeft:(CGPoint)bottomLeft bottomRight:(CGPoint)bottomRight {
-    
-    CGRect previewRect = self.frame;
-    
-    return [JXCGTransformHelper transfromRealCIRectInPreviewRect:previewRect imageRect:imageRect topLeft:topLeft topRight:topRight bottomLeft:bottomLeft bottomRight:bottomRight];
+BOOL doucmentDetectionConfidenceHighEnough(float confidence) {
+    return (confidence > 1.0);
 }
+
 @end

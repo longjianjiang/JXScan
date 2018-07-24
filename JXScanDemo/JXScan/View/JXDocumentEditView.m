@@ -11,7 +11,7 @@
 @interface JXDocumentEditView ()
 
 @property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) CIRectangleFeature *borderRectangle;
+@property (nonatomic, assign) JXQuadrangleFeature borderRectangle;
 @property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) CAShapeLayer *borderShapeLayer;
@@ -26,7 +26,7 @@
     return nil;
 }
 
-- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(CIRectangleFeature *)borderRectangle {
+- (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(JXQuadrangleFeature)borderRectangle {
     self = [super init];
     if (self) {
         self.borderRectangle = borderRectangle;
@@ -44,12 +44,7 @@
     [self.layer addSublayer:self.borderShapeLayer];
     
     
-    UIBezierPath *path = [UIBezierPath new];
-    [path moveToPoint:self.borderRectangle.topLeft];
-    [path addLineToPoint:self.borderRectangle.topRight];
-    [path addLineToPoint:self.borderRectangle.bottomRight];
-    [path addLineToPoint:self.borderRectangle.bottomLeft];
-    [path closePath];
+    UIBezierPath *path = [JXQudrangle getQuadranglePathWithQuadrangle:self.borderRectangle];
     
     UIBezierPath *rectPath  = [UIBezierPath bezierPathWithRect:CGRectMake(-5,
                                                                           -5,
