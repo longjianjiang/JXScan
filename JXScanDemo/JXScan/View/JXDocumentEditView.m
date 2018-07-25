@@ -7,7 +7,11 @@
 //
 
 #import "JXDocumentEditView.h"
+
 #import "JXEditCornerView.h"
+#import "JXPreviewEditCornerView.h"
+
+static NSInteger const kPreviewWidth = 100;
 
 @interface JXDocumentEditView ()
 
@@ -21,6 +25,9 @@
 @property (nonatomic, strong) JXEditCornerView *topRightCornerButton;
 @property (nonatomic, strong) JXEditCornerView *bottomRightCornerButton;
 @property (nonatomic, strong) JXEditCornerView *bottomLeftCornerButton;
+
+
+@property (nonatomic, strong) JXPreviewEditCornerView *previewCornerView;
 
 @end
 
@@ -108,8 +115,26 @@
     self.borderShapeLayer.path = rectPath.CGPath;
 }
 
+- (void)drawPreviewCornerViewWithCenter:(CGPoint)center {
+    CGRect previewRect = [self getPreviewRectWithPoint:center];
+    UIImage *previewImage = [self getClipImageInView:self.imageView withFrame:previewRect];
+
+    [self.previewCornerView updatePreviewWithPreviewImage:previewImage];
+}
+
+
 #pragma mark - gesture method
 - (void)dragCorner:(UIPanGestureRecognizer *)gesture {
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        [self.previewCornerView removeFromSuperview];
+        self.previewCornerView = nil;
+        return;
+    } else {
+        if (_previewCornerView == nil) {
+            [self addSubview:self.previewCornerView];
+        }
+    }
+    
     JXEditCornerView *cornerBtn = (JXEditCornerView *)gesture.view;
     
     CGPoint center = [gesture locationInView:self];
@@ -121,10 +146,44 @@
     self.borderRectangle = updatedQF;
     
     [self drawQuadrangleWithQF:updatedQF];
+    [self drawPreviewCornerViewWithCenter:center];
 }
 
 
 #pragma mark - helper method
+- (UIImage *)getClipImageInView:(UIView *)inView withFrame:(CGRect)frame {
+    UIGraphicsBeginImageContext(inView.bounds.size);
+    [inView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CGImageRef img = [viewImage CGImage];
+    img = CGImageCreateWithImageInRect(img, frame);  // This is the specific frame size whatever you want to take scrrenshot
+    viewImage = [UIImage imageWithCGImage:img];
+    /*
+    UIGraphicsBeginImageContext(inView.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    UIRectClip(frame);
+    [inView.layer renderInContext:context];
+    UIImage *aImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return aImage;
+     */
+    
+    return viewImage;
+}
+
+
+- (CGRect)getPreviewRectWithPoint:(CGPoint)point {
+    return CGRectMake(point.x - kPreviewWidth / 2.0,
+                      point.y - kPreviewWidth / 2.0,
+                      kPreviewWidth,
+                      kPreviewWidth);
+}
+
+
 - (CGPoint)validatePoint:(CGPoint)point forCornerButtonSize:(CGSize)cornerViewSize inView:(UIView *)view {
     CGPoint validPoint = point;
     
@@ -229,5 +288,12 @@
         _borderShapeLayer.lineWidth = 2.0f;
     }
     return _borderShapeLayer;
+}
+
+- (JXPreviewEditCornerView *)previewCornerView {
+    if (_previewCornerView == nil) {
+        _previewCornerView = [[JXPreviewEditCornerView alloc] initWithFrame:CGRectMake(0, 70, 100, 100)];
+    }
+    return _previewCornerView;
 }
 @end

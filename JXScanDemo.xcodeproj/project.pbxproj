@@ -19,6 +19,7 @@
 		781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CA21057EC400B397E6 /* JXScanViewController.m */; };
 		781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CD2105826800B397E6 /* JXDocumentEditView.m */; };
 		786A14DB210711B400579785 /* JXEditCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A14DA210711B400579785 /* JXEditCornerView.m */; };
+		786A14E121072E3900579785 /* JXPreviewEditCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A14E021072E3900579785 /* JXPreviewEditCornerView.m */; };
 		78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611322105B62800BD2C8B /* JXEditViewController.m */; };
 		78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611822106CAD700BD2C8B /* JXQuadrangle.m */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,8 @@
 		781580CD2105826800B397E6 /* JXDocumentEditView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXDocumentEditView.m; sourceTree = "<group>"; };
 		786A14D9210711B400579785 /* JXEditCornerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditCornerView.h; sourceTree = "<group>"; };
 		786A14DA210711B400579785 /* JXEditCornerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditCornerView.m; sourceTree = "<group>"; };
+		786A14DF21072E3900579785 /* JXPreviewEditCornerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXPreviewEditCornerView.h; sourceTree = "<group>"; };
+		786A14E021072E3900579785 /* JXPreviewEditCornerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXPreviewEditCornerView.m; sourceTree = "<group>"; };
 		78A611312105B62800BD2C8B /* JXEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditViewController.h; sourceTree = "<group>"; };
 		78A611322105B62800BD2C8B /* JXEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditViewController.m; sourceTree = "<group>"; };
 		78A611812106CAD700BD2C8B /* JXQuadrangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXQuadrangle.h; sourceTree = "<group>"; };
@@ -87,6 +90,8 @@
 				781580AA21057B9400B397E6 /* AppDelegate.m */,
 				781580AC21057B9400B397E6 /* ViewController.h */,
 				781580AD21057B9400B397E6 /* ViewController.m */,
+				781580C321057DB100B397E6 /* JXCGTransformHelper.h */,
+				781580C621057DB100B397E6 /* JXCGTransformHelper.m */,
 				781580AF21057B9400B397E6 /* Main.storyboard */,
 				781580B221057B9500B397E6 /* Assets.xcassets */,
 				781580B421057B9500B397E6 /* LaunchScreen.storyboard */,
@@ -105,8 +110,6 @@
 			children = (
 				781581382105AC2900B397E6 /* Tool */,
 				781581372105AC2100B397E6 /* View */,
-				781580C321057DB100B397E6 /* JXCGTransformHelper.h */,
-				781580C621057DB100B397E6 /* JXCGTransformHelper.m */,
 			);
 			path = JXScan;
 			sourceTree = "<group>";
@@ -120,6 +123,8 @@
 				781580CD2105826800B397E6 /* JXDocumentEditView.m */,
 				786A14D9210711B400579785 /* JXEditCornerView.h */,
 				786A14DA210711B400579785 /* JXEditCornerView.m */,
+				786A14DF21072E3900579785 /* JXPreviewEditCornerView.h */,
+				786A14E021072E3900579785 /* JXPreviewEditCornerView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				781580CB21057EC400B397E6 /* JXScanViewController.m in Sources */,
 				781580AB21057B9400B397E6 /* AppDelegate.m in Sources */,
 				78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */,
+				786A14E121072E3900579785 /* JXPreviewEditCornerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

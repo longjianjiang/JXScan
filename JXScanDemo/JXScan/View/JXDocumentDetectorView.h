@@ -9,14 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "JXQuadrangle.h"
 
-typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, JXQuadrangleFeature borderRectangle);
-
 @class JXDocumentDetectorView;
 
 @protocol JXDocumentDetectorViewDelegate <NSObject>
 
-@optional
-
+@required
 - (void)jxDocumentDetectorViewDidFailToSetupCamera:(JXDocumentDetectorView *)documentDetectorView;
 - (void)jxDocumentDetectorView:(JXDocumentDetectorView *)documentDetectorView didCaptureOriginalImage:(UIImage *)originalImage cutImage:(UIImage *)cutImage borderRectangle:(JXQuadrangleFeature)borderRectangle;
 
@@ -33,7 +30,5 @@ typedef void(^CompletionHandler)(UIImage *originalImage, UIImage *cutImage, JXQu
 @property (nonatomic, weak) id<JXDocumentDetectorViewDelegate> delegate;
 @property (nonatomic, assign) BOOL isAutoCapture;
 
-
-//- (void)didCaptureImageWithCompletionHandler:(CompletionHandler)completionHandler;
 @end
 
