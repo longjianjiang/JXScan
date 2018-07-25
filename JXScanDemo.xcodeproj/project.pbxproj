@@ -20,6 +20,7 @@
 		781580CE2105826800B397E6 /* JXDocumentEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781580CD2105826800B397E6 /* JXDocumentEditView.m */; };
 		786A14DB210711B400579785 /* JXEditCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A14DA210711B400579785 /* JXEditCornerView.m */; };
 		786A14E121072E3900579785 /* JXPreviewEditCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A14E021072E3900579785 /* JXPreviewEditCornerView.m */; };
+		786A153F21080F0700579785 /* JXPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786A153E21080F0700579785 /* JXPreviewViewController.m */; };
 		78A611332105B62800BD2C8B /* JXEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611322105B62800BD2C8B /* JXEditViewController.m */; };
 		78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A611822106CAD700BD2C8B /* JXQuadrangle.m */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,8 @@
 		786A14DA210711B400579785 /* JXEditCornerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditCornerView.m; sourceTree = "<group>"; };
 		786A14DF21072E3900579785 /* JXPreviewEditCornerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXPreviewEditCornerView.h; sourceTree = "<group>"; };
 		786A14E021072E3900579785 /* JXPreviewEditCornerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXPreviewEditCornerView.m; sourceTree = "<group>"; };
+		786A153D21080F0700579785 /* JXPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXPreviewViewController.h; sourceTree = "<group>"; };
+		786A153E21080F0700579785 /* JXPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXPreviewViewController.m; sourceTree = "<group>"; };
 		78A611312105B62800BD2C8B /* JXEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXEditViewController.h; sourceTree = "<group>"; };
 		78A611322105B62800BD2C8B /* JXEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXEditViewController.m; sourceTree = "<group>"; };
 		78A611812106CAD700BD2C8B /* JXQuadrangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXQuadrangle.h; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				781580CA21057EC400B397E6 /* JXScanViewController.m */,
 				78A611312105B62800BD2C8B /* JXEditViewController.h */,
 				78A611322105B62800BD2C8B /* JXEditViewController.m */,
+				786A153D21080F0700579785 /* JXPreviewViewController.h */,
+				786A153E21080F0700579785 /* JXPreviewViewController.m */,
 			);
 			path = JXScanDemo;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				781580AB21057B9400B397E6 /* AppDelegate.m in Sources */,
 				78A611832106CAD700BD2C8B /* JXQuadrangle.m in Sources */,
 				786A14E121072E3900579785 /* JXPreviewEditCornerView.m in Sources */,
+				786A153F21080F0700579785 /* JXPreviewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

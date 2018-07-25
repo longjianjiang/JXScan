@@ -8,6 +8,9 @@
 
 #import "JXPreviewEditCornerView.h"
 
+static NSInteger const kPreviewWidth = 100;
+static NSInteger const kCornerWidth  = 10;
+
 
 @interface JXPreviewEditCornerView ()
 
@@ -46,7 +49,7 @@
 - (UIImageView *)previewView {
     if (_previewView == nil) {
         _previewView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _previewView.layer.cornerRadius = 100/2.0;
+        _previewView.layer.cornerRadius = kPreviewWidth/2.0;
         _previewView.layer.borderColor = [UIColor whiteColor].CGColor;
         _previewView.layer.borderWidth = 2.0;
         _previewView.layer.masksToBounds = YES;
@@ -56,8 +59,8 @@
 
 - (UIView *)pointView {
     if (_pointView == nil) {
-        _pointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-        _pointView.layer.cornerRadius = 10/2.0;
+        _pointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kCornerWidth, kCornerWidth)];
+        _pointView.layer.cornerRadius = kCornerWidth/2.0;
         _pointView.layer.borderColor = [UIColor greenColor].CGColor;
         _pointView.layer.borderWidth = 2.0;
         _pointView.layer.masksToBounds = YES;

@@ -13,6 +13,7 @@
 @interface JXDocumentEditView : UIView
 
 - (instancetype)initWithOriginalImage:(UIImage *)originalImage borderRectangle:(JXQuadrangleFeature)borderRectangle;
+- (UIImage *)getCutImage;
 
 @end
 

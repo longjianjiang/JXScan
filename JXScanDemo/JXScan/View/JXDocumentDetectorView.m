@@ -49,7 +49,9 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 
 #pragma mark - public method
 - (void)capture {
+    
     if (_isCapturing) return;
+    if (!doucmentDetectionConfidenceHighEnough(_imageDetectionConfidence)) return;
     
     __weak typeof(self) weakSelf = self;
     

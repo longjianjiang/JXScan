@@ -9,6 +9,7 @@
 #import "JXEditViewController.h"
 #import "JXScan/View/JXDocumentEditView.h"
 
+#import "JXPreviewViewController.h"
 
 @interface JXEditViewController ()
 
@@ -33,7 +34,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"done" style:UIBarButtonItemStylePlain target:self action:@selector(goPreview)];
+    
     [self.view addSubview:self.editView];
+}
+
+#pragma mark - response method
+- (void)goPreview {
+    UIImage *cutImage = [self.editView getCutImage];
+    
+    JXPreviewViewController *previewVC = [[JXPreviewViewController alloc] initWithPreviewImage:cutImage];
+    
+    [self.navigationController pushViewController:previewVC animated:YES];
 }
 
 #pragma mark - getter and setter

@@ -34,6 +34,52 @@ static NSInteger const kPreviewWidth = 100;
 
 @implementation JXDocumentEditView
 
+#pragma mark - public method
+- (UIImage *)getCutImage {
+    
+    NSData *imageData = UIImageJPEGRepresentation(self.image, 1.0);
+    CIImage *enhancedImage = [CIImage imageWithData:imageData];
+    enhancedImage = [self filteredImageUsingContrastFilterOnImage:enhancedImage];
+    
+    CGRect imageRect = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+    CGRect extentRect = CGRectMake(0, 0, 750, 1000);
+    
+    CGFloat delta1 = CGRectGetWidth(extentRect)/CGRectGetWidth(self.bounds);
+    CGFloat delta2 = CGRectGetHeight(extentRect)/CGRectGetHeight(self.bounds);
+    
+    CGFloat deltaX = CGRectGetWidth(enhancedImage.extent)/CGRectGetWidth(self.bounds);
+    CGFloat deltaY = CGRectGetHeight(enhancedImage.extent)/CGRectGetHeight(self.bounds);
+    
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(0.f, CGRectGetHeight(enhancedImage.extent));
+    transform = CGAffineTransformScale(transform, 1, -1); // when UIKit coordinate this line should not be executed
+    
+    transform = CGAffineTransformScale(transform, deltaX, deltaY);
+   
+    JXQuadrangleFeature qf = [JXQudrangle getNewQuadrangleWithQuadrangle:self.borderRectangle transform:transform];
+
+    enhancedImage = [self correctPerspectiveForImage:enhancedImage withFeatures:qf];
+    
+    UIGraphicsBeginImageContext(CGSizeMake(enhancedImage.extent.size.height, enhancedImage.extent.size.width));
+    [[UIImage imageWithCIImage:enhancedImage scale:1.0 orientation:UIImageOrientationRight] drawInRect:CGRectMake(0,0, enhancedImage.extent.size.height, enhancedImage.extent.size.width)];
+    UIImage *cutImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return cutImage;
+}
+
+- (CIImage *)filteredImageUsingContrastFilterOnImage:(CIImage *)image {
+    
+    return [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputContrast":@(1.1),kCIInputImageKey:image}].outputImage;
+}
+
+- (CIImage *)correctPerspectiveForImage:(CIImage *)image withFeatures:(JXQuadrangleFeature)rectangleFeature {
+    NSMutableDictionary *rectangleCoordinates = [NSMutableDictionary new];
+    rectangleCoordinates[@"inputTopLeft"] = [CIVector vectorWithCGPoint:rectangleFeature.topLeft];
+    rectangleCoordinates[@"inputTopRight"] = [CIVector vectorWithCGPoint:rectangleFeature.topRight];
+    rectangleCoordinates[@"inputBottomLeft"] = [CIVector vectorWithCGPoint:rectangleFeature.bottomLeft];
+    rectangleCoordinates[@"inputBottomRight"] = [CIVector vectorWithCGPoint:rectangleFeature.bottomRight];
+    return [image imageByApplyingFilter:@"CIPerspectiveCorrection" withInputParameters:rectangleCoordinates];
+}
 #pragma mark - life cycle
 - (instancetype)init {
     NSCAssert(NO, @"Use -initWithOriginalImage:borderRectangle: instead");
