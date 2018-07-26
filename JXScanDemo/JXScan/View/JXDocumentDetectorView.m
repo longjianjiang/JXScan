@@ -14,6 +14,8 @@
 #import "JXWeakProxy.h"
 
 static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
+static NSInteger const kDetectorAutoCaptureRepeatCount = 20;
+static CGFloat const kDetectorAutoCaptureCriticalValue = 3;
 
 @interface JXDocumentDetectorView ()<AVCaptureVideoDataOutputSampleBufferDelegate> {
     GLKView *_glkView;
@@ -41,6 +43,9 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 
 @property (nonatomic, strong) EAGLContext *context;
+
+
+@property (nonatomic, strong) NSMutableArray *rectangleFeatureQueue;
 
 @end
 
@@ -260,6 +265,41 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
     _rectOverlay.path = rectPath.CGPath;
 }
 
+- (void)judgeShouldAutoCaptureWithRectangleFeature:(CIRectangleFeature *)rf {
+    if (self.rectangleFeatureQueue.count == kDetectorAutoCaptureRepeatCount) {
+        [self.rectangleFeatureQueue removeObjectAtIndex:0];
+    }
+    
+    [self.rectangleFeatureQueue addObject:rf];
+    
+    if (self.rectangleFeatureQueue.count == kDetectorAutoCaptureRepeatCount) {
+        CIRectangleFeature *first = [self.rectangleFeatureQueue firstObject];
+        
+        for (int i = 1; i < kDetectorAutoCaptureRepeatCount; ++i) {
+            CIRectangleFeature *rf = self.rectangleFeatureQueue[i];
+            if ( !(fabs(first.topLeft.x - rf.topLeft.x) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.topLeft.y - rf.topLeft.y) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.topRight.x - rf.topRight.x) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.topRight.y - rf.topRight.y) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.bottomRight.x - rf.bottomRight.x) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.bottomRight.y - rf.bottomRight.y) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.bottomLeft.x - rf.bottomLeft.x) <= kDetectorAutoCaptureCriticalValue &&
+                fabs(first.bottomLeft.y - rf.bottomLeft.y) <= kDetectorAutoCaptureCriticalValue) ) {
+                
+                [self.rectangleFeatureQueue removeAllObjects];
+                return;
+            }
+        }
+        
+        [self.rectangleFeatureQueue removeAllObjects];
+        [self capture];
+        
+    }
+}
+
+
+
+
 #pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     
@@ -285,6 +325,10 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
         _imageDetectionConfidence += 0.5;
         
         if (doucmentDetectionConfidenceHighEnough(_imageDetectionConfidence)) {
+            if (self.isAutoCapture) {
+                [self judgeShouldAutoCaptureWithRectangleFeature:_documentDetectLastRectangleFeature];
+            }
+            
             [self _drawBorderDetectRectWithExtentImageRect:image.extent rectangleFeature:_documentDetectLastRectangleFeature];
         }
         
@@ -315,6 +359,8 @@ static CGFloat const kDetectorDocumentTimeInterval = 0.5f;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.rectangleFeatureQueue = [NSMutableArray arrayWithCapacity:kDetectorAutoCaptureRepeatCount];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_entereBackgroundMode) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_enterForegroundMode) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
