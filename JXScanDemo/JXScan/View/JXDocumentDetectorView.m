@@ -81,6 +81,12 @@ static CGFloat const kDetectorAutoCaptureCriticalValue = 3;
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^(CMSampleBufferRef  _Nullable imageDataSampleBuffer, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
         
+        if (imageDataSampleBuffer == NULL || error) {
+            strongSelf->_isCapturing = NO;
+            NSLog(@"capture image get error");
+            return;
+        }
+        
         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         
         CIImage *enhancedImage = [CIImage imageWithData:imageData];
